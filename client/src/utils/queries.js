@@ -8,7 +8,7 @@ query thoughts($username: String){
     thoughtText
     createdAt
     username
-    ractionCount
+    reactionCount
     reactions{
         _id
         createdAt

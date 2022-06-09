@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom'
+import Auth from '../../utils/auth'
 
 const Header = () => {
   return (
@@ -10,8 +11,19 @@ const Header = () => {
       </Link>
 
       <nav className='text-center'>
-      <Link to='/login'>Login</Link>
-      <Link to='/signup'>Sign Up</Link>
+      {Auth.loggedIn() ? (
+        <>
+          <Link to='/profile'>Me</Link>
+          <a href='/'>
+          Log Out
+          </a>
+        </>
+      ) : (
+        <>
+          <Link to='/login'>Login</Link>
+          <Link to='/signup'>Sign up</Link>
+        </>
+      )}
       </nav>
       </div>
     </header>

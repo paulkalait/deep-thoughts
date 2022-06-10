@@ -2,11 +2,15 @@ import React from "react";
 import Auth from '../utils/auth'
 import {Navigate, useParams } from "react-router-dom";
 import ThoughtList from "../components/ThoughtList";
-import { useQuery } from "@apollo/client";
+import { useQuery, useMutation } from "@apollo/client";
 import FriendList from "../components/FriendList";
 import { QUERY_USER, QUERY_ME } from "../utils/queries";
+import { ADD_FRIEND } from "../utils/mutations";
+import ThoughtForm from "../components/ThoughtForm";
 
 const Profile = () => {
+  const [addFriend ] = useMutation(ADD_FRIEND)
+
   const { username: userParam } = useParams();
 
   const { loading, data } = useQuery(userParam ? QUERY_USER: QUERY_ME, {
@@ -31,6 +35,16 @@ const Profile = () => {
       You need to be logged in to see this page. Use the navigation above to sign up or log in</h4>
     )
   }
+
+  const handleClick = async () => {
+    try{
+      await addFriend({
+        variables: { id: user._id}
+      })
+    }catch(e){
+      console.error(e)
+    }
+  }
   return (
     <div>
       <div className="flex-row mb-3">
@@ -38,6 +52,8 @@ const Profile = () => {
           {/* Viewing <usernames>'s profile. */}
           Viewing {userParam ? `${user.username}` : 'your'}'s profile.'
         </h2>
+
+       {userParam && (<button className="btn ml-auto" onClick={handleClick}>Add Friend</button>)} 
       </div>
 
       <div className="flex-row justify-space-between mb-3">
@@ -59,7 +75,7 @@ const Profile = () => {
         </div>
 
       </div>
-      
+      <div className="mb-3">{!userParam && <ThoughtForm />}</div>
     </div>
   );
 };

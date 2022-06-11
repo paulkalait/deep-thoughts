@@ -23,7 +23,7 @@ const ThoughtForm = () => {
             //could potentially not exist yet, so wrap in a try/catch
             try{
                 //update me array's cache
-                const { me} = cache.readQuery({query: QUERY_ME});
+                const { me } = cache.readQuery({query: QUERY_ME});
                 cache.writeQuery({
                     query: QUERY_ME,
                     data: {me: { ...me, thoughts: [...me.thoughts, addThought]}},
